@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Семён — кибербезопасность</title>
+  <title>Семён — Вирусный Аналитик</title>
   <style>
     :root {
       --bg: #0b0f1a;
@@ -31,7 +31,8 @@
       justify-content: center;
       padding: 24px 12px 32px;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     #bgCanvas {
@@ -54,6 +55,43 @@
 
     header {
       margin-bottom: 18px;
+      padding: 12px 8px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(251, 146, 60, 0.06) 0, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    header:hover {
+      background: rgba(15, 17, 25, 0.4);
+    }
+
+    header:hover::before {
+      opacity: 1;
+    }
+
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    header:hover h1 {
+      color: var(--accent);
+      transform: translateX(2px);
     }
 
     h1 {
@@ -64,6 +102,29 @@
     h2 {
       font-size: 16px;
       margin-bottom: 6px;
+      position: relative;
+      display: inline-block;
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .section:hover h2 {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.35s ease;
+    }
+
+    .section:hover h2::after {
+      width: 100%;
     }
 
     p {
@@ -85,20 +146,77 @@
 
     .section {
       border-top: 1px solid var(--border);
-      padding-top: 12px;
+      padding: 16px 14px 14px;
       margin-top: 12px;
+      border-radius: 12px;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(251, 146, 60, 0.08) 0, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .section:hover {
+      background: rgba(15, 17, 25, 0.6);
+      border-color: rgba(251, 146, 60, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(251, 146, 60, 0.1);
+    }
+
+    .section:hover::before {
+      opacity: 1;
+    }
+
+    .section > * {
+      position: relative;
+      z-index: 1;
     }
 
     ul {
-      list-style: disc;
-      padding-left: 18px;
-      margin-top: 4px;
+      list-style: none;
+      padding-left: 0;
+      margin-top: 8px;
       font-size: 14px;
       color: var(--text-muted);
     }
 
-    li + li {
-      margin-top: 3px;
+    li {
+      position: relative;
+      padding-left: 20px;
+      margin-top: 8px;
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      opacity: 0.5;
+      transition: all 0.25s ease;
+    }
+
+    li:hover {
+      color: var(--text);
+      transform: translateX(6px);
+      padding-left: 24px;
+    }
+
+    li:hover::before {
+      opacity: 1;
+      transform: scale(1.2);
+      color: var(--accent-strong);
     }
 
     .contact-row {
@@ -118,6 +236,35 @@
     .contact-label {
       font-size: 13px;
       color: var(--text-muted);
+      transition: color 0.25s ease, transform 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--text-muted);
+      transition: fill 0.25s ease;
+    }
+
+    .contact-row.stack:hover .contact-icon svg {
+      fill: var(--accent);
+    }
+
+    .contact-row.stack:hover .contact-label {
+      color: var(--accent);
+      transform: translateX(4px);
     }
 
     .info-chip {
@@ -126,6 +273,25 @@
       border: 1px dashed rgba(248, 250, 252, 0.2);
       font-size: 13px;
       background: rgba(3, 7, 18, 0.55);
+      transition: all 0.25s ease;
+      cursor: default;
+      display: inline-block;
+    }
+
+    .info-chip:hover {
+      border-color: var(--accent);
+      background: rgba(251, 146, 60, 0.1);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(251, 146, 60, 0.2);
+    }
+
+    a.info-chip {
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    a.info-chip:hover {
+      color: var(--text);
     }
 
     button {
@@ -156,62 +322,452 @@
       color: var(--text-muted);
       margin-top: 6px;
     }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .skill-group {
+      margin-bottom: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .skill-group:hover {
+      background: rgba(251, 146, 60, 0.05);
+      transform: translateX(4px);
+    }
+
+    .tagline {
+      transition: letter-spacing 0.3s ease, color 0.3s ease;
+    }
+
+    header:hover .tagline {
+      letter-spacing: 0.2em;
+      color: var(--accent-strong);
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .skill-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .skill-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--text-muted);
+      transition: fill 0.25s ease;
+      display: block;
+    }
+
+    .skill-item:hover .skill-icon svg {
+      fill: var(--accent);
+    }
+
+    .skill-name {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: color 0.25s ease;
+    }
+
+    .skill-level {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .skill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(251, 146, 60, 0.2);
+      border: 1px solid rgba(251, 146, 60, 0.3);
+      transition: all 0.25s ease;
+    }
+
+    .skill-dot.filled {
+      background: var(--accent);
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 6px rgba(251, 146, 60, 0.4);
+    }
+
+    .skill-item:hover .skill-name {
+      color: var(--text);
+    }
+
+    .skill-item:hover .skill-dot.filled {
+      transform: scale(1.2);
+      box-shadow: 0 0 8px rgba(251, 146, 60, 0.6);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+      position: relative;
+      border-radius: 6px;
+    }
+
+    .tab:hover {
+      color: var(--text);
+      background: rgba(15, 17, 25, 0.4);
+    }
+
+    .tab.active {
+      color: var(--text);
+      background: rgba(251, 146, 60, 0.15);
+    }
+
+    .tab-content {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: none;
+      pointer-events: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-card {
+      background: rgba(15, 17, 25, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .project-card:hover {
+      border-color: rgba(251, 146, 60, 0.4);
+      background: rgba(15, 17, 25, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .project-title {
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .project-description {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tech-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      background: rgba(251, 146, 60, 0.1);
+      border: 1px solid rgba(251, 146, 60, 0.2);
+      border-radius: 4px;
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
 
   <div class="page">
-    <header>
+    <header class="fade-in">
       <div class="tagline">Кибербезопасность</div>
-      <h1>Семён</h1>
+      <h1>Семён Г.</h1>
       <p class="muted">
-        Интересуюсь сферой DFIR, имею год опыта в SOC: писал правила корреляции, анализировал инциденты и сэмплы ВПО.
+        Специалист по кибербезопасности с опытом работы в SOC: обработка инцидентов, анализ вредоносного ПО, разработка правил корреляции в MaxPatrol SIEM.
       </p>
     </header>
 
-    <section class="section" id="skills">
-      <h2>Кратко о навыках</h2>
+    <div class="tabs fade-in">
+      <button class="tab active" data-tab="about">О себе</button>
+      <button class="tab" data-tab="projects">Проекты</button>
+    </div>
+
+    <div id="about-content" class="tab-content active">
+    <section class="section fade-in" id="skills" data-delay="100">
+      <h2>Навыки</h2>
+      <div style="margin-top: 8px;">
+        <div class="skill-group">
+          <div class="small" style="margin-bottom: 8px; color: var(--accent); font-weight: 500;">Технические навыки</div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M9.585 2.568c.378-.378.88-.586 1.414-.586s1.036.208 1.414.586l1.586 1.586c.378.378.586.88.586 1.414s-.208 1.036-.586 1.414l-1.586 1.586c-.378.378-.88.586-1.414.586s-1.036-.208-1.414-.586l-1.586-1.586c-.378-.378-.586-.88-.586-1.414s.208-1.036.586-1.414l1.586-1.586zm1.414 2.828l-1.586 1.586c-.189.189-.44.293-.707.293s-.518-.104-.707-.293l-1.586-1.586c-.189-.189-.293-.44-.293-.707s.104-.518.293-.707l1.586-1.586c.189-.189.44-.293.707-.293s.518.104.707.293l1.586 1.586c.189.189.293.44.293.707s-.104.518-.293.707z"/></svg></span>
+            <span class="skill-name">Python</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm5 4h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></span>
+            <span class="skill-name">C++</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg></span>
+            <span class="skill-name">Assembler (x86-64)</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-2-1h-6v-2h6v2zM7.5 17l-1.41-1.41L7.67 14l-1.58-1.59L7.5 11l3 3-3 3zm4.5-6h6v2h-6v-2z"/></svg></span>
+            <span class="skill-name">Bash</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="8" r="1.5"/><circle cx="8" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/></svg></span>
+            <span class="skill-name">SQL</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg></span>
+            <span class="skill-name">IDA Pro</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z"/><circle cx="12" cy="12" r="1.5"/></svg></span>
+            <span class="skill-name">Ghidra</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg></span>
+            <span class="skill-name">dnSpy / IlSpy</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg></span>
+            <span class="skill-name">Sysinternals</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><circle cx="8" cy="8" r="1"/><circle cx="16" cy="8" r="1"/><circle cx="8" cy="16" r="1"/><circle cx="16" cy="16" r="1"/></svg></span>
+            <span class="skill-name">x64dbg</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><path d="M9 11h6v2H9v-2z"/></svg></span>
+            <span class="skill-name">Golang</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><path d="M7 9h10v2H7V9zm0 4h10v2H7v-2z"/></svg></span>
+            <span class="skill-name">ELK Kibana</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="small" style="margin-bottom: 8px; color: var(--accent); font-weight: 500;">Другие навыки</div>
+          <p class="muted" style="margin-bottom: 0;">
+            MITRE ATT&CK, Cyber Kill Chain, модель OSI
+          </p>
+        </div>
+        <div class="skill-group">
+          <div class="small" style="margin-bottom: 8px; color: var(--accent); font-weight: 500;">Языки</div>
+          <div class="skill-item">
+            <span class="skill-name">English (B2)</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot"></span>
+              <span class="skill-dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Russian (носитель)</span>
+            <div class="skill-level">
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+              <span class="skill-dot filled"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section fade-in" id="experience" data-delay="200">
+      <h2>Опыт работы</h2>
       <ul>
-        <li>Работа в SOC: базовый анализ алертов, эскалация, оформление инцидентов.</li>
-        <li>Написание и корректировка простых правил корреляции.</li>
-        <li>Linux и Windows на уровне повседневной работы и базового анализа.</li>
-        <li>Базовые подходы DFIR: что собирать, где смотреть, как фиксировать.</li>
-        <li>Понимание основных классов вредоносного ПО и их поведения на хосте.</li>
+        <li>Обработка и классификация инцидентов информационной безопасности в MaxPatrol SIEM</li>
+        <li>Подготовка аналитических отчетов по выявленному вредоносному программному обеспечению</li>
+        <li>Разработка и оптимизация правил корреляции для систем SIEM, повышение эффективности выявления инцидентов</li>
+        <li>Снижение времени реагирования на инциденты за счет внедрения новых сценариев обработки</li>
+        <li>Взаимодействие с командой SOC для эскалации и расследования инцидентов уровня L2 и L3</li>
+        <li>Проведение расследований как вирусный аналитик, включая классификацию инцидентов и подготовку аналитических отчётов для SOC</li>
+        <li>Тщательный анализ вредоносных программ LockBit3 и DarkWatchman RAT с целью разработки корреляционных правил и сценариев реагирования</li>
+        <li>Атрибуция обнаруженного ВПО к APT‑группировкам, повышая точность контекстуализации угроз и ускоряя эскалацию инцидентов</li>
       </ul>
     </section>
 
-    <section class="section" id="experience">
-      <h2>Опыт</h2>
-      <p class="muted">
-        1 год работы в SOC: следил за алертами, участвовал в разборе инцидентов, помогал улучшать правила корреляции.
-        Продолжаю учиться и искать задачи, где можно углубиться в DFIR и расследования.
-      </p>
-    </section>
-
-    <section class="section" id="contacts">
+    <section class="section fade-in" id="contacts" data-delay="300">
       <h2>Контакты</h2>
       <p class="muted">
-        Открыт к стажировкам и джун‑позициям в кибербезопасности. Предпочитаю общение по почте или в мессенджере.
+        Открыт к новым возможностям в сфере кибербезопасности. Предпочитаю общение в мессенджере.
       </p>
       <div class="contact-row stack">
-        <span class="contact-label">Email</span>
+        <span class="contact-label">
+          <span class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.166 1.683-1.13 6.05-1.598 8.023-.195.825-.578 1.1-1.05 1.12-.89.033-1.565-.588-2.427-1.15-1.35-.96-2.11-1.558-3.418-2.51-1.512-1.2-.531-1.86.329-2.936.226-.28 4.247-3.893 4.33-4.225.01-.033.02-.156-.06-.23-.08-.075-.197-.05-.282-.03-.12.024-2.01 1.28-5.68 3.76-.538.38-1.025.565-1.468.555-.49-.012-1.43-.276-2.13-.503-.86-.28-1.54-.43-1.48-.91.03-.24.4-.49 1.1-.74 4.25-1.85 7.08-3.07 8.5-3.66 4.04-1.68 4.88-1.97 5.43-1.99.12 0 .38.03.55.18.13.12.17.28.19.39-.01.06.01.24 0 .38z"/></svg></span>
+          Telegram
+        </span>
         <div class="contact-row">
-          <span class="info-chip" id="emailText">security.junior@example.com</span>
-          <button type="button" id="copyEmailBtn">Копировать email</button>
+          <span class="info-chip" id="tgText" style="cursor: pointer;">@Sccrrap</span>
         </div>
       </div>
       <div class="contact-row stack">
-        <span class="contact-label">Telegram</span>
+        <span class="contact-label">
+          <span class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></span>
+          GitHub
+        </span>
         <div class="contact-row">
-          <span class="info-chip" id="tgText">@Sccrrap</span>
-          <button type="button" id="copyTgBtn">Копировать Telegram</button>
+          <a href="https://github.com/Sccrap" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; cursor: pointer;">github.com/Sccrap</a>
         </div>
       </div>
     </section>
+    </div>
+
+    <div id="projects-content" class="tab-content">
+      <section class="section fade-in" id="projects" data-delay="100">
+        <h2>Проекты</h2>
+        <div class="project-card">
+          <div class="project-title">Analyze-PE</div>
+          <div class="project-description">
+            Лёгкая CLI-утилита для статического анализа PE-файлов (EXE/DLL) на языке Go. Инструмент предназначен для практического использования при анализе вредоносного ПО, сигнатурном исследовании и извлечении структур PE.
+          </div>
+          <div class="project-description" style="margin-top: 8px;">
+            <strong>Возможности:</strong> чтение PE32/PE32+ (x86/x64), вывод структуры PE и параметров секций, расчёт энтропии секций для выявления упаковщиков, извлечение импортов и ординалов, таблица импортов с именами DLL и функций.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Go</span>
+            <span class="tech-tag">PE Analysis</span>
+            <span class="tech-tag">Malware Analysis</span>
+            <span class="tech-tag">CLI</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <a href="https://github.com/Sccrap/analyze-pe" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; transition: color 0.25s ease;">
+              <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: currentColor;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <script>
+    // Копирование в буфер обмена
     function setupCopy(idValue, idButton, defaultLabel) {
       const valueEl = document.getElementById(idValue);
       const btn = document.getElementById(idButton);
@@ -247,8 +803,134 @@
       });
     }
 
-    setupCopy('emailText', 'copyEmailBtn', 'Копировать email');
-    setupCopy('tgText', 'copyTgBtn', 'Копировать Telegram');
+    // Копирование Telegram при клике на ник
+    const tgText = document.getElementById('tgText');
+    if (tgText) {
+      tgText.addEventListener('click', async () => {
+        const text = tgText.textContent.trim();
+        if (!text) return;
+
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const tmp = document.createElement('textarea');
+            tmp.value = text;
+            tmp.setAttribute('readonly', '');
+            tmp.style.position = 'absolute';
+            tmp.style.left = '-9999px';
+            document.body.appendChild(tmp);
+            tmp.select();
+            document.execCommand('copy');
+            document.body.removeChild(tmp);
+          }
+          
+          // Визуальная обратная связь
+          const originalBg = tgText.style.background;
+          tgText.style.background = 'rgba(34, 197, 94, 0.2)';
+          tgText.style.borderColor = '#22c55e';
+          setTimeout(() => {
+            tgText.style.background = originalBg;
+            tgText.style.borderColor = '';
+          }, 1000);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+
+    // Инициализация активной вкладки при загрузке
+    const activeContent = document.querySelector('.tab-content.active');
+    if (activeContent) {
+      activeContent.style.display = 'block';
+      activeContent.style.opacity = '1';
+      activeContent.style.transform = 'translateY(0)';
+    }
+
+    // Переключение вкладок с анимацией
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.getAttribute('data-tab');
+        const targetContent = document.getElementById(`${targetTab}-content`);
+        
+        // Если вкладка уже активна, ничего не делаем
+        if (tab.classList.contains('active')) return;
+        
+        // Находим текущую активную вкладку и контент
+        const currentTab = document.querySelector('.tab.active');
+        const currentContent = document.querySelector('.tab-content.active');
+        
+        // Убираем активный класс у всех вкладок
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        
+        // Анимация исчезновения текущего контента
+        if (currentContent) {
+          currentContent.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+          currentContent.style.opacity = '0';
+          currentContent.style.transform = 'translateY(-10px)';
+          
+          // После завершения анимации скрываем и показываем новый контент
+          setTimeout(() => {
+            currentContent.classList.remove('active');
+            currentContent.style.display = 'none';
+            
+            // Показываем новый контент
+            targetContent.style.display = 'block';
+            targetContent.classList.add('active');
+            
+            // Запускаем анимацию появления
+            setTimeout(() => {
+              targetContent.style.opacity = '1';
+              targetContent.style.transform = 'translateY(0)';
+            }, 10);
+          }, 300);
+        } else {
+          // Если нет активного контента, просто показываем новый
+          targetContent.style.display = 'block';
+          targetContent.classList.add('active');
+          setTimeout(() => {
+            targetContent.style.opacity = '1';
+            targetContent.style.transform = 'translateY(0)';
+          }, 10);
+        }
+        
+        // Добавляем активный класс выбранной вкладке
+        tab.classList.add('active');
+      });
+    });
+
+    // Отслеживание мыши для эффектов hover
+    document.querySelectorAll('.section, header').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        el.style.setProperty('--mouse-x', `${x}%`);
+        el.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
+
+    // Анимация появления при скролле
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = parseInt(entry.target.getAttribute('data-delay') || '0', 10);
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
 
     // Интерактивный фон: мягкие серо-оранжевые узоры с линиями
     (function() {

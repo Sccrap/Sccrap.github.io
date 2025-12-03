@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Семён — кибербезопасность</title>
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --bg-card: rgba(15, 17, 25, 0.92);
+      --border: rgba(71, 85, 105, 0.35);
+      --accent: #fb923c;
+      --accent-strong: #ea580c;
+      --text: #f8fafc;
+      --text-muted: #cbd5f5;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 12px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at top, #131927 0, #090d16 45%, #05060b 100%);
+    }
+
+    .page {
+      width: 100%;
+      max-width: 720px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 20px 18px 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+    }
+
+    header {
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .muted {
+      color: var(--text-muted);
+    }
+
+    .tagline {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .section {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 18px;
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    li + li {
+      margin-top: 3px;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .contact-row.stack {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contact-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .info-chip {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px dashed rgba(248, 250, 252, 0.2);
+      font-size: 13px;
+      background: rgba(3, 7, 18, 0.55);
+    }
+
+    button {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-muted);
+      padding: 4px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease, transform 0.15s ease-out;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+      background: rgba(5, 6, 11, 0.85);
+    }
+
+    button.copied {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="page">
+    <header>
+      <div class="tagline">Кибербезопасность</div>
+      <h1>Семён</h1>
+      <p class="muted">
+        Интересуюсь сферой DFIR, имею год опыта в SOC: писал правила корреляции, анализировал инциденты и сэмплы ВПО.
+      </p>
+    </header>
+
+    <section class="section" id="skills">
+      <h2>Кратко о навыках</h2>
+      <ul>
+        <li>Работа в SOC: базовый анализ алертов, эскалация, оформление инцидентов.</li>
+        <li>Написание и корректировка простых правил корреляции.</li>
+        <li>Linux и Windows на уровне повседневной работы и базового анализа.</li>
+        <li>Базовые подходы DFIR: что собирать, где смотреть, как фиксировать.</li>
+        <li>Понимание основных классов вредоносного ПО и их поведения на хосте.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="experience">
+      <h2>Опыт</h2>
+      <p class="muted">
+        1 год работы в SOC: следил за алертами, участвовал в разборе инцидентов, помогал улучшать правила корреляции.
+        Продолжаю учиться и искать задачи, где можно углубиться в DFIR и расследования.
+      </p>
+    </section>
+
+    <section class="section" id="contacts">
+      <h2>Контакты</h2>
+      <p class="muted">
+        Открыт к стажировкам и джун‑позициям в кибербезопасности. Предпочитаю общение по почте или в мессенджере.
+      </p>
+      <div class="contact-row stack">
+        <span class="contact-label">Email</span>
+        <div class="contact-row">
+          <span class="info-chip" id="emailText">security.junior@example.com</span>
+          <button type="button" id="copyEmailBtn">Копировать email</button>
+        </div>
+      </div>
+      <div class="contact-row stack">
+        <span class="contact-label">Telegram</span>
+        <div class="contact-row">
+          <span class="info-chip" id="tgText">@Sccrrap</span>
+          <button type="button" id="copyTgBtn">Копировать Telegram</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function setupCopy(idValue, idButton, defaultLabel) {
+      const valueEl = document.getElementById(idValue);
+      const btn = document.getElementById(idButton);
+      if (!valueEl || !btn) return;
+
+      btn.addEventListener('click', async () => {
+        const text = valueEl.textContent.trim();
+        if (!text) return;
+
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const tmp = document.createElement('textarea');
+            tmp.value = text;
+            tmp.setAttribute('readonly', '');
+            tmp.style.position = 'absolute';
+            tmp.style.left = '-9999px';
+            document.body.appendChild(tmp);
+            tmp.select();
+            document.execCommand('copy');
+            document.body.removeChild(tmp);
+          }
+          btn.classList.add('copied');
+          btn.textContent = 'Скопировано';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.textContent = defaultLabel;
+          }, 2000);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+
+    setupCopy('emailText', 'copyEmailBtn', 'Копировать email');
+    setupCopy('tgText', 'copyTgBtn', 'Копировать Telegram');
+
+    // Интерактивный фон: мягкие серо-оранжевые узоры с линиями
+    (function() {
+      const canvas = document.getElementById('bgCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      const nodes = [];
+      const NODE_COUNT = 48;
+      const MAX_SPEED = 0.25;
+      const LINK_DISTANCE = 150;
+      const pointer = { x: width / 2, y: height / 2 };
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      for (let i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: rand(0, width),
+          y: rand(0, height),
+          vx: rand(-MAX_SPEED, MAX_SPEED),
+          vy: rand(-MAX_SPEED, MAX_SPEED),
+          size: rand(1.5, 3.4),
+          hueShift: rand(-6, 6)
+        });
+      }
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('mousemove', (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+      });
+
+      function draw() {
+        if (!ctx) return;
+        const gradient = ctx.createLinearGradient(0, 0, width, height);
+        gradient.addColorStop(0, '#0b0f1a');
+        gradient.addColorStop(0.4, '#090d16');
+        gradient.addColorStop(1, '#05060b');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          a.x += a.vx;
+          a.y += a.vy;
+
+          if (a.x < -20) a.x = width + 20;
+          if (a.x > width + 20) a.x = -20;
+          if (a.y < -20) a.y = height + 20;
+          if (a.y > height + 20) a.y = -20;
+
+          const dx = pointer.x - a.x;
+          const dy = pointer.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const influence = Math.max(0, 120 - dist) / 120;
+          a.vx += (dx / dist) * 0.0008 * influence;
+          a.vy += (dy / dist) * 0.0008 * influence;
+          a.vx = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, a.vx));
+          a.vy = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, a.vy));
+        }
+
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i];
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < LINK_DISTANCE) {
+              const alpha = (1 - dist / LINK_DISTANCE) * 0.35;
+              ctx.strokeStyle = `rgba(248, 181, 129, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        for (const node of nodes) {
+          ctx.fillStyle = `rgba(251, 146, 60, 0.65)`;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+</body>
+</html>

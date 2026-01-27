@@ -262,6 +262,12 @@
       transition: all 0.25s ease;
       cursor: pointer;
       display: inline-block;
+      color: var(--text);
+    }
+
+    .info-chip a {
+      color: var(--text);
+      text-decoration: none;
     }
 
     .info-chip:hover {
@@ -577,6 +583,12 @@
       transition: all 0.25s ease;
       cursor: pointer;
       display: inline-block;
+      color: var(--text);
+    }
+
+    .info-chip a {
+      color: var(--text);
+      text-decoration: none;
     }
 
     .info-chip:hover {
@@ -961,6 +973,7 @@
           <li>Проведение расследований как вирусный аналитик, включая классификацию инцидентов и подготовку аналитических отчётов для SOC</li>
           <li>Тщательный анализ вредоносных программ LockBit3 и DarkWatchman RAT с целью разработки корреляционных правил и сценариев реагирования</li>
           <li>Атрибуция обнаруженного ВПО к APT-группировкам, повышая точность контекстуализации угроз и ускоряя эскалацию инцидентов</li>
+          <li><strong>«Москва — Город Мастеров» (2022)</strong>: администрирование и настройка ASRA Linux, развертывание и конфигурация InfoWatch DLP для защиты данных, установка и администрирование VipNet с разработкой политик безопасности, настройка правил корреляции для обнаружения нарушений политик безопасности</li>
         </ul>
       </section>
     </div>
@@ -1000,8 +1013,118 @@
             <span class="tech-tag">CLI</span>
           </div>
           <div style="margin-top: 12px;">
-            <a href="https://github.com/Sccrap/analyze-pe" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; transition: color 0.25s ease;">
+            <a href="https://github.com/Sccrap/analyze-pe" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; color: inherit;">
               GitHub — analyze-pe
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">Defbox.io Labs</div>
+          <div class="project-description">
+            Серия интерактивных лабораторий на платформе defbox.io, посвященных практическому обучению навыкам анализа вредоносного ПО и реагированию на инциденты. <strong>Автор и разработчик всех лабораторных работ.</strong>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <div style="margin-bottom: 10px;">
+              <strong style="color: var(--text); font-size: 13px;">Лабораторная работа #1: Реверс самописного вредоносного кода C2 на Python</strong>
+              <div style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">
+                Глубокий анализ клиентской части C2 (Command & Control) вредоносного кода, разработанного на Python и упакованного PyInstaller. Лабораторная работа охватывает статический анализ через pyextractor и pycadas для восстановления исходного кода, исследование артефактов через CFF Explorer и die для выявления сигнатур упаковки. Практический разбор механизма персистентности через реестр Windows, отслеживание обращений к серверу управления по IPv4, анализ выполнения команд через обратный TCP канал. Включает техники извлечения индикаторов компрометации и восстановления логики функционирования сети управляемых узлов.
+              </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+              <strong style="color: var(--text); font-size: 13px;">Лабораторная работа #2: Анализ системных логов Linux при компрометации через атаку подбора пароля</strong>
+              <div style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">
+                Комплексный анализ системных логов Linux (var/log) после успешной атаки подбора пароля на SSH и иные сервисы. Методика включает ручной поиск и фильтрацию через grep и cat для выявления несанкционированных обращений с неизвестных IPv4 адресов, восстановление временной шкалы атаки из auth.log. Практический разбор техник обеспечения доступа: модификация cron для запуска скрытых агентов, изменение .bashrc для сохранения административного доступа. Изучение способов восстановления действий злоумышленника на компрометированной системе, выявление оставленных артефактов (shell_history, временные файлы, изменённые конфигурационные файлы).
+              </div>
+            </div>
+          </div>
+
+          <div class="project-tech">
+            <span class="tech-tag">Malware Analysis</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Linux</span>
+            <span class="tech-tag">Incident Response</span>
+            <span class="tech-tag">Reverse Engineering</span>
+            <span class="tech-tag">Log Analysis</span>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 24px; margin-bottom: 16px;">Статьи и Публикации</h2>
+
+        <div class="project-card">
+          <div class="project-title">AI агенты в SOC: критический анализ архитектуры, экономики и рисков</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;"><em>Авторская статья для блога Сергея Зыбнева</em></div>
+          <div class="project-description">
+            Глубокое исследование применения искусственного интеллекта и автономных агентов в операционных центрах безопасности (SOC). Статья охватывает архитектурные особенности AI-систем, экономическую целесообразность внедрения, потенциальные уязвимости и риски при автоматизации процессов обработки инцидентов. Анализ показывает, как AI может повысить эффективность, но требует осторожности и надлежащего контроля.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">AI/ML</span>
+            <span class="tech-tag">SOC</span>
+            <span class="tech-tag">Security Architecture</span>
+            <span class="tech-tag">Risk Analysis</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <a href="https://blog.poxek.cc/post/ai-agenty-v-soc-kriticheskij-analiz-arhitektury-ekonomiki-i-riskov/" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; color: inherit;">
+              Читать на blog.poxek.cc
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">Black Matter Ransomware: подробный анализ и рекомендации</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;"><em>Авторская статья для блога Сергея Зыбнева</em></div>
+          <div class="project-description">
+            Комплексный анализ Black Matter — одного из самых опасных семейств шифровального вредоноса. Статья содержит детальное описание механики работы вируса, технических особенностей инфицирования, методов шифрования данных, способов распространения и способов управления от злоумышленников. Включает практические рекомендации по защите инфраструктуры, выявлению признаков атаки и восстановлению после компрометации.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Ransomware</span>
+            <span class="tech-tag">Malware Analysis</span>
+            <span class="tech-tag">Threat Intelligence</span>
+            <span class="tech-tag">Defense</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <a href="https://blog.poxek.cc/post/black-matter-ransomware-podrobnyj-analiz-i-rekomendaczii/" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; color: inherit;">
+              Читать на blog.poxek.cc
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">Code Cave: искусство внедрения кода в исполняемые модули</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;"><em>Авторская статья для блога Сергея Зыбнева</em></div>
+          <div class="project-description">
+            Техническое руководство по методике code cave injection — высокотехничному способу внедрения произвольного кода в работающие процессы без заметного изменения исполняемых файлов. Статья разбирает основные принципы поиска пустых участков памяти (code caves), технику переадресации потока выполнения, методы обхода защит. Описывает применение этого приёма как в исследовательских целях, так и в контексте защиты от вредоносных программ.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Reverse Engineering</span>
+            <span class="tech-tag">Code Injection</span>
+            <span class="tech-tag">Low-level Programming</span>
+            <span class="tech-tag">Memory Analysis</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <a href="https://blog.poxek.cc/post/code-cave-iskusstvo-vnedreniya-koda-v-ispolnyaemye-moduli/" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; color: inherit;">
+              Читать на blog.poxek.cc
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">CVE-2025-10035: GoAnywhere MFT под атакой Medusa Ransomware</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;"><em>Авторская статья для блога Сергея Зыбнева</em></div>
+          <div class="project-description">
+            Анализ критической уязвимости CVE-2025-10035 в платформе управления файлами GoAnywhere MFT (Managed File Transfer). Статья рассматривает технические детали уязвимости, способы эксплуатации злоумышленниками, особенности атак с использованием Medusa ransomware для шифрования данных организаций. Включает индикаторы компрометации (IoC), признаки активной эксплуатации и рекомендации по скорейшему патчированию и защите систем.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">CVE Analysis</span>
+            <span class="tech-tag">Vulnerability</span>
+            <span class="tech-tag">Ransomware</span>
+            <span class="tech-tag">Threat Intelligence</span>
+          </div>
+          <div style="margin-top: 12px;">
+            <a href="https://blog.poxek.cc/post/cve-2025-10035-go-anywhere-mft-pod-atakoj-medusa-ransomware/" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; color: inherit;">
+              Читать на blog.poxek.cc
             </a>
           </div>
         </div>
@@ -1041,6 +1164,21 @@
         </span>
         <div class="contact-row" style="margin-top: 6px;">
           <a href="https://github.com/Sccrap" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; cursor: pointer;">github.com/Sccrap</a>
+        </div>
+      </div>
+
+      <div class="contact-row stack" style="margin-top: 12px;">
+        <span class="contact-label">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width: 20px; height: 20px; margin-right: 6px;">
+            <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.3-1.54-4.23 5.51h17.17L13.96 6.29z"/>
+          </svg>
+          Блог
+        </span>
+        <p class="muted" style="font-size: 13px; margin-top: 6px; margin-bottom: 8px;">
+          Канал о реверс-инженеринге и анализе вредоносного кода. Разбор техник обфускации, механизмов защиты, методов статического и динамического анализа, а также практические примеры из реальных инцидентов кибербезопасности.
+        </p>
+        <div class="contact-row" style="margin-top: 6px;">
+          <a href="https://t.me/malanalyst_days" target="_blank" rel="noopener noreferrer" class="info-chip" style="text-decoration: none; display: inline-block; color: inherit;">@malanalyst_days</a>
         </div>
       </div>
     </section>
